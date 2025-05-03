@@ -46,5 +46,5 @@ jobs:
     uses: malcolmdzimati/workflow-templates/.github/workflows/deploy_container_fly_job.yml@main
     needs: go-docker # Ensures the build only runs if the CodeQL scan passes
     with:
-        app-name: 'propertytoolsbyrotabackend'
+        app-name: 'propertytoolsbyrota/propertytoolsbyrotabackend'
         registry-username: 'malcolmdzimati'
