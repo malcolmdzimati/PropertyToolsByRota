@@ -33,7 +33,7 @@ jobs:
     with:
         app-name: 'propertytoolsbyrotabackend'
         registry-username: 'malcomldzimati'
-        dockerfile-path: 'PropertyToolsByRotaBackend'
+        dockerfile-path: './PropertyToolsByRotaBackend'
     needs: go-api # Ensures the build only runs if the CodeQL scan passes
 
   go-containerapp:
