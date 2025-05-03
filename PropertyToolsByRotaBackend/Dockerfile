@@ -1,9 +1,5 @@
 FROM alpine:latest
-
 WORKDIR /root/
-
-COPY PropertyToolsByRotaBackend .
-
+COPY main .
 EXPOSE 8080
-
-CMD ["./PropertyToolsByRotaBackend"]
+CMD ["./main"]
