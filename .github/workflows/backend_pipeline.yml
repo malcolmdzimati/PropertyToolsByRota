@@ -26,7 +26,7 @@ jobs:
     #needs: go # Ensures the build only runs if the CodeQL scan passes
     with:
         app-name: 'PropertyToolsByRotaBackend'
-        working-directory: './PropertyToolsByRotaBackend'
+        working-directory: './PropertyToolsByRota'
 
   go-docker:
     uses: malcolmdzimati/workflow-templates/.github/workflows/docker_job.yml@main
