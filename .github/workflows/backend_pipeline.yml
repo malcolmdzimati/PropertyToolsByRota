@@ -21,9 +21,7 @@ permissions:
   security-events: write
   packages: write
 
-env:
-  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-  
+
 jobs:
   go:
     uses: malcolmdzimati/workflow-templates/.github/workflows/codeql_security_scan_job.yml@main
