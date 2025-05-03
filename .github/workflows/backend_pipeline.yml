@@ -1,4 +1,4 @@
-name: Deploy personal website
+name: Build and Deploy Go BFF
 description: |
   This workflow deploys a personal website using GitHub Actions. It includes a CodeQL security scan, builds the React application, and deploys it to GitHub Pages.
 on:
@@ -36,7 +36,7 @@ jobs:
 
   go-containerapp:
     uses: malcolmdzimati/workflow-templates/.github/workflows/deploy_container_fly_job.yml@main
-    needs: go-api # Ensures the build only runs if the CodeQL scan passes
+    needs: go-docker # Ensures the build only runs if the CodeQL scan passes
     with:
         app-name: 'PropertyToolsByRotaBackend'
         registry-username: 'malcomldzimati'
