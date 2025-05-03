@@ -1,0 +1,42 @@
+name: Deploy personal website
+description: |
+  This workflow deploys a personal website using GitHub Actions. It includes a CodeQL security scan, builds the React application, and deploys it to GitHub Pages.
+on:
+  # Runs on pushes targeting the main branch
+  push:
+    branches:
+      - main
+      
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  security-events: write
+  
+jobs:
+  go:
+    uses: malcolmdzimati/workflow-templates/.github/workflows/codeql_security_scan_job.yml@main
+    with:
+        language: 'Go'
+
+  go-api:
+    uses: malcolmdzimati/workflow-templates/.github/workflows/build_test_go_job.yml@main
+    needs: go # Ensures the build only runs if the CodeQL scan passes
+    with:
+        app-name: 'PropertyToolsByRotaBackend'
+
+  go-docker:
+    uses: malcolmdzimati/workflow-templates/.github/workflows/docker_job.yml@main
+    with:
+        app-name: 'PropertyToolsByRotaBackend'
+        registry-username: 'malcomldzimati'
+    needs: go-api # Ensures the build only runs if the CodeQL scan passes
+
+  go-containerapp:
+    uses: malcolmdzimati/workflow-templates/.github/workflows/deploy_container_fly_job.yml@main
+    needs: go-api # Ensures the build only runs if the CodeQL scan passes
+    with:
+        app-name: 'PropertyToolsByRotaBackend'
+        registry-username: 'malcomldzimati'
