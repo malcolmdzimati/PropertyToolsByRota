@@ -23,7 +23,7 @@ jobs:
 
   go-api:
     uses: malcolmdzimati/workflow-templates/.github/workflows/build_test_go_job.yml@main
-    needs: go # Ensures the build only runs if the CodeQL scan passes
+    #needs: go # Ensures the build only runs if the CodeQL scan passes
     with:
         app-name: 'PropertyToolsByRotaBackend'
 
