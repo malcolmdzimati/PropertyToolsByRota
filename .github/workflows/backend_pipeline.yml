@@ -1,6 +1,11 @@
 name: Build and Deploy Go BFF
 description: |
   This workflow deploys a personal website using GitHub Actions. It includes a CodeQL security scan, builds the React application, and deploys it to GitHub Pages.
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+  
 on:
   # Runs on pushes targeting the main branch
   push:
@@ -23,7 +28,7 @@ jobs:
 
   go-api:
     uses: malcolmdzimati/workflow-templates/.github/workflows/build_test_go_job.yml@main
-    #needs: go # Ensures the build only runs if the CodeQL scan passes
+    needs: go # Ensures the build only runs if the CodeQL scan passes
     with:
         app-name: 'PropertyToolsByRotaBackend'
         working-directory: './PropertyToolsByRotaBackend'
