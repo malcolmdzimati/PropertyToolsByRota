@@ -1,50 +1,44 @@
-name: Build and Push Docker Image
-
+name: Build and Deploy Go BFF
+description: |
+  This workflow deploys a personal website using GitHub Actions. It includes a CodeQL security scan, builds the React application, and deploys it to GitHub Pages.
 on:
-  workflow_call:
-    inputs:
-      app-name:
-        description: 'Name of the Docker image/app'
-        type: string
-        required: true
-      registry-username:
-        description: 'Container registry username'
-        type: string
-        required: true
-      working-directory:
-        description: 'Working directory for Docker context'
-        type: string
-        required: true
-        default: '.'
-      artifact-name:
-        description: 'Name of the artifact to download'
-        type: string
-        required: true
-        default: 'build-artifact'
+  # Runs on pushes targeting the main branch
+  push:
+    branches:
+      - main
+      
+  workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  security-events: write
+  
 jobs:
-  build_and_push:
-    runs-on: ubuntu-latest
+  go:
+    uses: malcolmdzimati/workflow-templates/.github/workflows/codeql_security_scan_job.yml@main
+    with:
+        language: 'Go'
 
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v4
+  go-api:
+    uses: malcolmdzimati/workflow-templates/.github/workflows/build_test_go_job.yml@main
+    #needs: go # Ensures the build only runs if the CodeQL scan passes
+    with:
+        app-name: 'PropertyToolsByRotaBackend'
+        working-directory: './PropertyToolsByRotaBackend'
 
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ inputs.artifact-name }}
-          path: ./build
+  go-docker:
+    uses: malcolmdzimati/workflow-templates/.github/workflows/docker_job.yml@main
+    with:
+        app-name: 'propertytoolsbyrotabackend'
+        registry-username: 'malcomldzimati'
+        working-directory: 'PropertyToolsByRotaBackend'
+    needs: go-api # Ensures the build only runs if the CodeQL scan passes
 
-      - name: Build Docker image
-        run: docker build -t ghcr.io/${{ inputs.registry-username }}/${{ inputs.app-name }}:latest ./build
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ inputs.registry-username }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push Docker image
-        run: docker push ghcr.io/${{ inputs.registry-username }}/${{ inputs.app-name }}:latest
+  go-containerapp:
+    uses: malcolmdzimati/workflow-templates/.github/workflows/deploy_container_fly_job.yml@main
+    needs: go-docker # Ensures the build only runs if the CodeQL scan passes
+    with:
+        app-name: 'propertytoolsbyrotabackend'
+        registry-username: 'malcomldzimati'
