@@ -7,27 +7,25 @@
 app = 'propertytoolsbyrotabackend'
 primary_region = 'jnb'
 
-[build]
+[deploy]
+strategy = "bluegreen" 
 
 [http_service]
-  internal_port = 8080
+  internal_port = 443
   force_https = true
-  auto_stop_machines = 'stop'
+  auto_stop_machines = true
   auto_start_machines = true
   min_machines_running = 0
-  processes = ['app']
+  processes = ["app"]
+
+  [[http_service.checks]]
+  grace_period = "10s"
+  interval = "30s"
+  method = "GET"
+  timeout = "5s"
+  path = "/health"
 
 [[vm]]
   memory = '256mb'
   cpu_kind = 'shared'
   cpus = 1
-
-[[checks]]
-  type = "http"
-  interval = "15s"
-  timeout = "10s"
-  method = "get"
-  path = "/health"
-  protocol = "http"
-  grace_period = "5s"
-  restart_limit = 0
