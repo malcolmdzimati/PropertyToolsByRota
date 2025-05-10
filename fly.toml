@@ -7,8 +7,8 @@
 app = 'propertytoolsbyrotabackend'
 primary_region = 'jnb'
 
-[deploy]
-strategy = "bluegreen" 
+#[deploy]
+#strategy = "bluegreen" 
 
 [http_service]
   internal_port = 8080
