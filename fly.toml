@@ -22,12 +22,12 @@ primary_region = 'jnb'
   cpu_kind = 'shared'
   cpus = 1
 
-[checks]
-  [checks.http]
-    interval = "15s"
-    timeout = "10s"
-    method = "get"
-    path = "/health"
-    protocol = "http"
-    grace_period = "5s"
-    restart_limit = 0
+[[checks]]
+  type = "http"
+  interval = "15s"
+  timeout = "10s"
+  method = "get"
+  path = "/health"
+  protocol = "http"
+  grace_period = "5s"
+  restart_limit = 0
