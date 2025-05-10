@@ -21,7 +21,6 @@ permissions:
   security-events: write
   packages: write
 
-
 jobs:
   go:
     uses: malcolmdzimati/workflow-templates/.github/workflows/codeql_security_scan_job.yml@main
@@ -49,3 +48,5 @@ jobs:
     with:
         app-name: 'propertytoolsbyrota/propertytoolsbyrotabackend'
         registry-username: 'malcolmdzimati'
+    secrets:
+      fly_api_token: ${{ secrets.FLY_API_TOKEN }}
