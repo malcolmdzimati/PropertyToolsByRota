@@ -2,6 +2,7 @@
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
+# Config for backend BFF
 
 app = 'propertytoolsbyrotabackend'
 primary_region = 'jnb'
