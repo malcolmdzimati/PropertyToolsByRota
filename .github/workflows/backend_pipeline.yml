@@ -35,6 +35,7 @@ jobs:
         working-directory: './PropertyToolsByRotaBackend'
         AUTH0_DOMAIN: ${{ vars.AUTH0_DOMAIN }}
         AUTH0_AUDIENCE: ${{ vars.AUTH0_AUDIENCE }}
+        artifact-name: 'propertytoolsbyrotabackend'
 
   go-docker:
     uses: malcolmdzimati/workflow-templates/.github/workflows/docker_job.yml@main
@@ -42,6 +43,7 @@ jobs:
         app-name: 'propertytoolsbyrotabackend'
         registry-username: 'malcolmdzimati'
         dockerfile-path: './PropertyToolsByRotaBackend/Dockerfile'
+        artifact-name: 'propertytoolsbyrotabackend'
     needs: go-api # Ensures the build only runs if the CodeQL scan passes
 
   go-containerapp:

@@ -7,6 +7,7 @@ import (
 
 func main() {
 	r := gin.Default()
+	r.SetTrustedProxies(nil)
 
 	// Set up routes
 	router.SetupRoutes(r)

@@ -1,0 +1,45 @@
+name: Build and Deploy Next.js Frontend
+description: |
+  This workflow deploys a personal website using GitHub Actions. It includes a CodeQL security scan, builds the React application, and deploys it to GitHub Pages.
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+on:
+  # Runs on pushes targeting the main branch
+  push:
+    branches:
+      - main
+      
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  security-events: write
+  packages: write
+
+jobs:
+  typescript:
+    uses: malcolmdzimati/workflow-templates/.github/workflows/codeql_security_scan_job.yml@main
+    with:
+        language: 'typescript'
+
+  next_js:
+    uses: malcolmdzimati/workflow-templates/.github/workflows/build_react_job.yml@main
+    needs: typescript # Ensures the build only runs if the CodeQL scan passes
+    with:
+        artifact-name: 'propertytoolsbyrotafrontend'
+        hosting-service: 'cloudflare'
+
+  go-containerapp:
+    uses: malcolmdzimati/workflow-templates/.github/workflows/deploy_website_cloudflare_job.yml@main
+    needs: next_js # Ensures the build only runs if the CodeQL scan passes
+    with:
+        app-name: 'propertytoolsbyrota'
+        artifact-name: 'propertytoolsbyrotafrontend'
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
