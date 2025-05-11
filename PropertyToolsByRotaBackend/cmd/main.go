@@ -1,25 +1,22 @@
 package main
 
 import (
+	"PropertyToolsByRotaBackend/internal/router"
 	"github.com/gin-gonic/gin"
-	"net/http"
+	"github.com/joho/godotenv"
+	"log"
 )
 
 func main() {
-	router := gin.Default()
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
 
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	r := gin.Default()
 
-	router.GET("/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"status": "ok",
-		})
-	})
+	// Set up routes
+	router.SetupRoutes(r)
 
-	// other routes...
-	router.Run(":8080")
+	// Start the server
+	r.Run(":8080")
 }
