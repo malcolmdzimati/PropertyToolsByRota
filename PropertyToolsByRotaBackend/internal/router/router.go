@@ -13,7 +13,7 @@ import (
 func SetupRoutes(r *gin.Engine) *gin.Engine {
 
 	// === Group: /v1/api ===
-	api := r.Group("/v1/api")
+	api := r.Group("/api/v1")
 
 	// Setup the public routes
 	SetupPublicRoutes(api)
