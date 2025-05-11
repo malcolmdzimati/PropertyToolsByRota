@@ -33,8 +33,8 @@ jobs:
     with:
         app-name: 'PropertyToolsByRotaBackend'
         working-directory: './PropertyToolsByRotaBackend'
-        AUTH0_DOMAIN: ${{ variables.AUTH0_DOMAIN }}
-        AUTH0_AUDIENCE: ${{ variables.AUTH0_AUDIENCE }}
+        AUTH0_DOMAIN: ${{ vars.AUTH0_DOMAIN }}
+        AUTH0_AUDIENCE: ${{ vars.AUTH0_AUDIENCE }}
 
   go-docker:
     uses: malcolmdzimati/workflow-templates/.github/workflows/docker_job.yml@main
