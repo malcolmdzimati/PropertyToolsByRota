@@ -11,7 +11,9 @@ on:
   push:
     branches:
       - main
-      
+    paths:
+      - 'PropertyToolsByRotaFrontend/**'
+      - '.github/workflows/frontend_pipeline.yml'
   workflow_dispatch:
 
 permissions:
