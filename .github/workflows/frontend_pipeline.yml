@@ -39,7 +39,7 @@ jobs:
 
   go-containerapp:
     uses: malcolmdzimati/workflow-templates/.github/workflows/deploy_website_cloudflare_job.yml@main
-    needs: next_js # Ensures the build only runs if the CodeQL scan passes
+    needs: next_js
     with:
         app-name: 'propertytoolsbyrota'
         artifact-name: 'propertytoolsbyrotafrontend'
