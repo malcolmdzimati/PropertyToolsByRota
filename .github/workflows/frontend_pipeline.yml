@@ -33,6 +33,7 @@ jobs:
     with:
         artifact-name: 'propertytoolsbyrotafrontend'
         hosting-service: 'cloudflare'
+        working-directory: 'PropertyToolsByRotaFrontend'
 
   go-containerapp:
     uses: malcolmdzimati/workflow-templates/.github/workflows/deploy_website_cloudflare_job.yml@main
